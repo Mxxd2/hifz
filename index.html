@@ -111,8 +111,8 @@ $("#hide").onclick=e=>{const on=document.body.classList.toggle("hide");e.current
 $("#verses").addEventListener("click",e=>{const p=e.target.closest(".pl");if(p)return playV(+p.dataset.p);const n=e.target.closest(".n");if(n)return setStart(+n.dataset.v);const w=e.target.closest(".w");if(w)return w.classList.toggle("peek");const t=e.target.closest(".tr");if(t)t.classList.toggle("peek")});
 function say(t){$("#st").textContent=t}
 function clearMarks(){flat.forEach(f=>f.el.classList.remove("ok","bad","wrong","cur"))}
-function setStart(vi){startV=vi;clearMarks();pos=vStart[vi];mistakes=0;lastV=-1;k=0;prevWs=[];misses=0;adv();say(listening?`Recite from verse ${vi+1}…`:`Starting from verse ${vi+1}. Tap Start reciting.`)}
-$("#rs").onclick=()=>setStart(startV);
+function setStart(vi){startV=vi;pos=vStart[vi];lastV=-1;k=listening?prevWs.length:0;if(!listening)prevWs=[];misses=0;adv();say(listening?`Recite from verse ${vi+1}…`:`Starting from verse ${vi+1}. Tap Start reciting.`)}
+$("#rs").onclick=()=>{const vi=flat[Math.min(pos,flat.length-1)].vi;setStart(pos<flat.length&&pos===vStart[vi]&&vi>0&&flat[vStart[vi-1]].el.classList.contains("ok")?vi-1:vi)};
 function adv(){const c=$(".w.cur");if(c)c.classList.remove("cur");while(pos<flat.length&&flat[pos].c===""){flat[pos].el.classList.add("ok");pos++}
 const f=flat[pos];if(f){f.el.classList.add("cur");if(f.vi!==lastV){lastV=f.vi;f.el.closest(".v").scrollIntoView({block:"center",behavior:"smooth"})}}}
 /* reciters */
@@ -133,23 +133,36 @@ let ac;function beep(){try{const o=ac.createOscillator(),g=ac.createGain();o.typ
 function flash(i){const el=flat[i].el;el.classList.add("wrong");setTimeout(()=>el.classList.remove("wrong"),1400)}
 let misses=0;
 const likeS=(a,b)=>a===b||(Math.max(a.length,b.length)>3&&sim(a,b)>=.75);
-const okw=i=>flat[i].el.classList.add("ok"),badw=i=>flat[i].el.classList.add("bad");
+const okw=i=>{const c=flat[i].el.classList;c.remove("bad","wrong");c.add("ok")},badw=i=>flat[i].el.classList.add("bad");
+function anchor(ws,k,n,fin,c,back){
+const vi=flat[pos].vi,vs=vStart[vi],pv=vi>0?vStart[vi-1]:vs;let js=[];
+if(back){js.push(vs);if(pv!==vs)js.push(pv);for(let j=pv;j<pos;j++)if(js.indexOf(j)<0)js.push(j)}
+else for(let j=pos+3;j<flat.length&&j<pos+9;j++)js.push(j);
+let wait=false;
+for(const j of js){const e=flat[j].c;if(!e||j===pos||!like(c,e))continue;
+if(k+1<n){const c2=cmp(ws[k+1]),nx=j+1<flat.length?flat[j+1]:null;if(c2&&nx&&nx.c&&like(c2,nx.c))return{j,used:2}}
+else if(back&&(j===vs||j===pv)&&e.length>=4&&likeS(c,e)){if(fin)return{j,used:1};wait=true}
+else if(!fin)wait=true}
+return wait?0:null}
 function step(ws,k,n,fin){const c=cmp(ws[k]);if(!c)return 1;
 const e0=flat[pos].c,e1=pos+1<flat.length?flat[pos+1].c:"",e2=pos+2<flat.length?flat[pos+2].c:"";
-if(like(c,e0)){okw(pos);pos++;misses=0;return 1}
+if(like(c,e0)){if(c!==e0){if(!fin&&k+1>=n)return 0;if(k+1<n){const a=anchor(ws,k,n,fin,c,true);if(a&&a.used===2&&a.j<pos&&flat[a.j].c===c){for(let t=0;t<2;t++)okw(a.j+t);pos=a.j+2;misses=0;say(`Restarted verse ${flat[a.j].vi+1}`);return 2}}}okw(pos);pos++;misses=0;return 1}
 if(k+1<n){const c2=cmp(ws[k+1]);if(c2&&likeS(c+c2,e0)){okw(pos);pos++;misses=0;return 2}}
 else if(!fin&&c.length<e0.length&&e0.startsWith(c))return 0;
 if(e1&&likeS(c,e0+e1)){okw(pos);okw(pos+1);pos+=2;misses=0;return 1}
-const vs=vStart[flat[pos].vi];
-if(pos>vs&&like(c,flat[vs].c)){for(let i=vs;i<pos;i++)flat[i].el.classList.remove("ok","bad","wrong");pos=vs;okw(pos);pos++;misses=0;say(`Restarted verse ${flat[vs].vi+1}`);return 1}
+let a=anchor(ws,k,n,fin,c,true);if(a===0)return 0;
+if(a){for(let t=0;t<a.used;t++)okw(a.j+t);pos=a.j+a.used;misses=0;say(`Restarted verse ${flat[a.j].vi+1}`);return a.used}
 if(e1&&like(c,e1)){badw(pos);beep();mistakes++;okw(pos+1);pos+=2;misses=0;return 1}
 if(e2&&c.length>3&&like(c,e2)){badw(pos);badw(pos+1);beep();mistakes++;okw(pos+2);pos+=3;misses=0;return 1}
+a=anchor(ws,k,n,fin,c,false);if(a===0)return 0;
+if(a){for(let i=pos;i<a.j;i++)badw(i);beep();mistakes++;for(let t=0;t<a.used;t++)okw(a.j+t);pos=a.j+a.used;misses=0;return a.used}
 misses++;beep();mistakes++;flash(pos);
 if(misses>=3){badw(pos);pos++;misses=0;say("Skipped a word the phone couldn’t match. Keep going.")}else say("Mistake. The highlighted word is next. Say it again.");
 return 1}
 function processWords(ws,fin){let n=ws.length;if(!fin){n=Math.max(0,n-1);let s=0;while(s<n&&prevWs[s]===ws[s])s++;n=s}prevWs=ws;
 while(k<n&&listening&&pos<flat.length){const used=step(ws,k,n,fin);if(!used)break;k+=used;adv()}
 if(pos>=flat.length){stop();say(`Surah complete. Mistakes: ${mistakes}.`)}}
+function buildWords(rs){let acc="";for(let i=0;i<rs.length;i++){const t=norm(rs[i][0].transcript);if(!t)continue;acc=acc&&t.startsWith(acc)?t:(acc?acc+" "+t:t)}return acc.split(" ").filter(Boolean)}
 /* speech */
 let rec=null,listening=false,k=0,prevWs=[];
 function stop(){listening=false;document.body.classList.remove("rec");try{rec&&rec.abort()}catch(e){}rec=null;const m=$("#mic");if(m){m.classList.remove("on");$("#ml").textContent="Start reciting"}}
@@ -169,10 +182,9 @@ if(!await micReady())return;
 say("Asking for microphone access…");
 if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){try{const st=await navigator.mediaDevices.getUserMedia({audio:true});st.getTracks().forEach(t=>t.stop())}catch(err){micFail(err);return}}else{micFail({name:"NotSupportedError"});return}
 $("#ob").hidden=true;
-if(pos>=flat.length)setStart(startV);
+if(pos>=flat.length){clearMarks();setStart(startV)}
 rec=new SR();rec.lang="ar-SA";rec.continuous=true;rec.interimResults=true;k=0;prevWs=[];
-rec.onresult=e=>{let acc="";for(let i=0;i<e.results.length;i++){const t=norm(e.results[i][0].transcript);if(!t)continue;acc=acc&&t.startsWith(acc)?t:(acc?acc+" "+t:t)}
-const ws=acc.split(" ").filter(Boolean);processWords(ws,e.results[e.results.length-1].isFinal);$("#hd").textContent=ws.slice(-8).join(" ")};
+rec.onresult=e=>{const ws=buildWords(e.results);processWords(ws,e.results[e.results.length-1].isFinal);$("#hd").textContent=ws.slice(-8).join(" ")};
 rec.onerror=e=>{const m={"not-allowed":"Microphone blocked. Allow mic access for this site in Chrome.","service-not-allowed":"Microphone blocked. Allow mic access for this site in Chrome.","network":"Speech recognition needs an internet connection.","language-not-supported":"Arabic speech recognition isn’t supported on this device."}[e.error];if(m){stop();if(e.error==="not-allowed"||e.error==="service-not-allowed")micFail({name:"NotAllowedError"});else say(m)}};
 rec.onend=()=>{if(listening){k=0;prevWs=[];try{rec.start()}catch(e){}}};
 stopAudio();listening=true;try{rec.start()}catch(e){}
