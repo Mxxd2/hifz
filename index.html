@@ -50,7 +50,7 @@ header small{display:block;font-size:13px;font-weight:400;color:var(--mute)}
 @media (prefers-reduced-motion:no-preference){.mic.on{animation:p 1.6s infinite}@keyframes p{50%{box-shadow:0 0 0 8px rgba(194,59,59,.18)}}}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .rec .tr,.rec .n{display:none}.rec #hd{display:none}
-.lis{display:flex;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.lis select{flex:1;min-width:0;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:0 10px;font:inherit}.pl{flex:none;min-width:44px;height:36px;border-radius:18px;border:1px solid var(--line);background:var(--card);font-weight:600;padding:0 12px}.vt{display:flex;gap:8px;align-items:center}.v.now{background:color-mix(in srgb,var(--brand) 14%,transparent);border-radius:12px;margin:0 -8px;padding-left:8px;padding-right:8px}.rec .pl,.rec .lis{display:none}.lis label{font-size:14px;color:var(--mute)}.pl[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.lis{display:flex;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.lis select{flex:1;min-width:0;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:0 10px;font:inherit}.pl{flex:none;min-width:44px;height:36px;border-radius:18px;border:1px solid var(--line);background:var(--card);font-weight:600;padding:0 12px}.vt{display:flex;gap:8px;align-items:center}.v.now{background:color-mix(in srgb,var(--brand) 14%,transparent);border-radius:12px;margin:0 -8px;padding-left:8px;padding-right:8px}.rec .pl,.rec .lis{display:none}body.rec.pq #hd{display:block}.lis label{font-size:14px;color:var(--mute)}.pl[aria-pressed=true]{background:var(--ink);color:var(--bg)}
 .dlg{width:100%;max-width:340px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 20px 8px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.35)}.dlg h2{font-size:21px;margin:0 0 8px}.dlg p{color:var(--mute);margin:0 0 18px}.dlg hr{border:0;border-top:1px solid var(--line);margin:0}.dl{display:block;width:100%;background:none;border:0;padding:16px;font-weight:700;color:var(--brand)}
 .sheet{width:100%;max-width:720px;background:var(--card);border-radius:20px 20px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(0,0,0,.2)}.sheet h2{margin:0 0 6px;font-size:20px}.sheet ol{margin:8px 0;padding-left:20px;color:var(--mute);font-size:15px}.lv{height:8px;border-radius:4px;background:var(--mask);margin:12px 0;overflow:hidden}.lv i{display:block;height:100%;width:0;background:var(--ok)}.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 [hidden]{display:none!important}
@@ -65,10 +65,10 @@ header small{display:block;font-size:13px;font-weight:400;color:var(--mute)}
 <button class="ib" id="fp" aria-label="Larger text">A+</button>
 </header>
 <main class="wrap" id="list"><input id="search" type="search" placeholder="Search by name or number" autocomplete="off"><div id="cont"></div><div id="rows"></div></main>
-<main class="wrap" id="reader" hidden><div class="lis"><select id="rc" aria-label="Reciter"></select><button class="pl" id="pa" style="height:44px">▶ Play surah</button><button class="pl" id="sb" aria-pressed="true" style="height:44px" aria-label="Strict letter checking">Strict</button></div><div class="lis"><label for="en">Engine</label><select id="en"><option value="p">Phone speech (fast)</option><option value="q">Quran model (precise, beta)</option></select><button class="pl" id="mk" aria-pressed="false" aria-label="Show pause marks">Pause marks</button></div><div id="verses"></div><div id="ap" hidden style="position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:24px"><div class="dlg" role="alertdialog" aria-labelledby="apt"><h2 id="apt">Access Your Microphone</h2><p>To check your recitation, Hifz needs to hear you. Tap “Enable Access”, then choose Allow when your phone asks.</p><hr><button class="dl" id="apy">Enable Access</button><button class="dl" id="apn">Do not allow</button></div></div><div id="mp" hidden style="position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:grid;place-items:end center"><div class="sheet" role="dialog" aria-label="Microphone setup"><h2>Microphone</h2><p id="mps" style="margin:0 0 4px"></p><div class="lv"><i id="lvi"></i></div><ol id="mpl" hidden><li>Android Settings → Apps → Chrome → Permissions → Microphone → Allow.</li><li>In Chrome, tap the lock icon next to the address, then Permissions, and allow Microphone for this site.</li></ol><div class="btns"><button class="mic" id="mpgo" style="flex:none;padding:0 22px">Allow &amp; test microphone</button><a id="ob2" class="tg" href="#" target="_blank" rel="noopener" hidden style="display:grid;place-items:center;text-decoration:none;color:inherit">Open in browser</a><button class="tg" id="mpx">Close</button></div></div></div>
+<main class="wrap" id="reader" hidden><div class="lis"><select id="rc" aria-label="Reciter"></select><button class="pl" id="pa" style="height:44px">▶ Play surah</button><button class="pl" id="sb" aria-pressed="true" style="height:44px" aria-label="Strict letter checking">Strict</button></div><div class="lis"><label for="en">Engine</label><select id="en"><option value="p">Phone speech (fast)</option><option value="q">Quran model (precise, beta)</option></select></div><div id="verses"></div><div id="ap" hidden style="position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:24px"><div class="dlg" role="alertdialog" aria-labelledby="apt"><h2 id="apt">Access Your Microphone</h2><p>To check your recitation, Hifz needs to hear you. Tap “Enable Access”, then choose Allow when your phone asks.</p><hr><button class="dl" id="apy">Enable Access</button><button class="dl" id="apn">Do not allow</button></div></div><div id="mp" hidden style="position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:grid;place-items:end center"><div class="sheet" role="dialog" aria-label="Microphone setup"><h2>Microphone</h2><p id="mps" style="margin:0 0 4px"></p><div class="lv"><i id="lvi"></i></div><ol id="mpl" hidden><li>Android Settings → Apps → Chrome → Permissions → Microphone → Allow.</li><li>In Chrome, tap the lock icon next to the address, then Permissions, and allow Microphone for this site.</li></ol><div class="btns"><button class="mic" id="mpgo" style="flex:none;padding:0 22px">Allow &amp; test microphone</button><a id="ob2" class="tg" href="#" target="_blank" rel="noopener" hidden style="display:grid;place-items:center;text-decoration:none;color:inherit">Open in browser</a><button class="tg" id="mpx">Close</button></div></div></div>
 <div class="bar"><div>
 <p id="st" role="status">Tap a verse number to choose where to start.</p><a id="ob" href="#" target="_blank" rel="noopener" hidden style="display:inline-block;margin:0 0 8px;font-weight:700;color:var(--brand)">Open in browser</a><p id="hd" lang="ar"></p>
-<div class="ctl"><button class="tg" id="hide" aria-pressed="false">Hide text</button>
+<div class="lv" id="lvm" hidden style="margin:0 0 8px"><i id="lvb"></i></div><div class="ctl"><button class="tg" id="hide" aria-pressed="false">Hide text</button>
 <button class="mic" id="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span id="ml">Start reciting</span></button>
 <button class="tg" id="rs" aria-label="Restart">↺</button></div></div></div></main>
 <script>
@@ -76,7 +76,7 @@ const DATA=[["الفاتحة","Al-Fatihah","The Opener","meccan",[["بِسۡمِ
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 const norm=t=>t.replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g,"").replace(/[إأآٱ]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه").replace(/ؤ/g,"و").replace(/ئ/g,"ي").replace(/[^\u0621-\u064A ]/g,"").trim();
-const disp=w=>S.marks?w:w.replace(/[\u06D6-\u06DC]/g,"");
+const disp=w=>w;
 const FOLD={"ث":"س","ص":"س","ذ":"ز","ظ":"ز","ض":"د","ط":"ت","ء":""};
 const cmp=(t,e)=>{let s=norm(t.replace(/[ؤئء]/g,e?"ء":"").replace(/و(?=\u0670)/g,"").replace(/ى(?=[\u064B-\u065F]*\u0670[\u064B-\u065F]*ة)/g,"").replace(/\u06E7/g,"ي"));s=s.replace(/[ثصذظضط]/g,c=>FOLD[c]);return s.replace(/ا/g,"").replace(/\s+/g,"")};
 function lev(a,b){const m=a.length,n=b.length,d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
@@ -174,53 +174,64 @@ function buildWords(rs){let acc="",alts=[];for(let i=0;i<rs.length;i++){const t=
 for(let a=1;a<(rs[i].length||0);a++){const aw=norm(rs[i][a].transcript).split(" ").filter(Boolean);aw.forEach((x,p)=>{(alts[off+p]=alts[off+p]||[]).push(x)})}}
 ALT=alts;return acc.split(" ").filter(Boolean)}
 /* precise engine: Quran-trained Whisper, runs on the phone (hosted copy only) */
-const TJS="https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.6",MODEL="iqbalaesthetic/Basira";
-let PQ=null,cap=null;
+const TJS="https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.6",MODEL="iqbalaesthetic/Basira",OPT={language:"arabic",task:"transcribe",max_new_tokens:128};
+let PQ=null,cap=null,PQdev="";
+const em=e=>String(e&&e.message||e).slice(0,140);
 $("#en").value=S.eng||"p";
-$("#mk").setAttribute("aria-pressed",S.marks);$("#mk").onclick=()=>{S.marks=!S.marks;save();$("#mk").setAttribute("aria-pressed",S.marks);flat.forEach(f=>f.el.textContent=disp(f.w))};
 $("#en").onchange=e=>{S.eng=e.target.value;save();say(S.eng==="q"?"Quran model selected. It downloads once (about 100–200 MB) when you tap Start reciting.":"Phone speech selected.")};
-async function loadModel(){if(PQ)return PQ;
+async function loadModel(forceWasm){if(PQ&&!forceWasm)return PQ;
 const T=await import(TJS);T.env.allowLocalModels=false;
 let dev="wasm",dt="q8";
-try{if(navigator.gpu){const ad=await navigator.gpu.requestAdapter();if(ad){dev="webgpu";dt=ad.features.has("shader-f16")?"fp16":"q4"}}}catch(e){}
+if(!forceWasm)try{if(navigator.gpu){const ad=await navigator.gpu.requestAdapter();if(ad){dev="webgpu";dt=ad.features.has("shader-f16")?"fp16":"q4"}}}catch(e){}
 const fl={},prog=p=>{if(p&&p.file&&p.total){fl[p.file]=[p.loaded||0,p.total];let l=0,t=0;for(const f in fl){l+=fl[f][0];t+=fl[f][1]}say(`Downloading Quran model… ${Math.round(l/t*100)}% of ${Math.round(t/1048576)} MB (first time only)`)}};
-try{PQ=await T.pipeline("automatic-speech-recognition",MODEL,{device:dev,dtype:dt,progress_callback:prog})}
-catch(e){if(dev!=="webgpu")throw e;PQ=await T.pipeline("automatic-speech-recognition",MODEL,{device:"wasm",dtype:"q8",progress_callback:prog})}
+try{PQ=await T.pipeline("automatic-speech-recognition",MODEL,{device:dev,dtype:dt,progress_callback:prog});PQdev=dev+" "+dt}
+catch(e){if(dev!=="webgpu")throw e;PQ=await T.pipeline("automatic-speech-recognition",MODEL,{device:"wasm",dtype:"q8",progress_callback:prog});PQdev="wasm q8"}
 return PQ}
 function downsample(x,from){if(from===16000)return x;const r=from/16000,n=Math.floor(x.length/r),o=new Float32Array(n);for(let i=0;i<n;i++)o[i]=x[Math.floor(i*r)];return o}
 async function startPrecise(){if(!await micReady())return;
-let st;try{st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false}})}catch(err){micFail(err);return}
+let st;try{st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true}})}catch(err){micFail(err);return}
 const AC=window.AudioContext||window.webkitAudioContext;
 try{ac=ac||new AC();ac.resume()}catch(e){}
-say("Loading the Quran model…");$("#mic").disabled=true;
-try{await loadModel()}catch(err){st.getTracks().forEach(t=>t.stop());$("#mic").disabled=false;say("Couldn’t load the Quran model. It needs internet the first time and doesn’t work inside the claude.ai preview. Switch Engine back to Phone speech.");return}
-$("#mic").disabled=false;
+/* start capturing right away, inside the tap, so the browser can't leave audio suspended during the long model download */
+let ctx;try{ctx=new AC({sampleRate:16000})}catch(e){ctx=new AC()}
+try{await ctx.resume()}catch(e){}
+if(ctx.state!=="running"){st.getTracks().forEach(t=>t.stop());try{ctx.close()}catch(e){}say("The browser blocked audio capture. Tap the page once and try again.");return}
+const src=ctx.createMediaStreamSource(st),pr=ctx.createScriptProcessor(4096,1,1);
+const c=cap={st,ctx,src,pr,chunks:[],busy:false,timer:0,live:false,floor:.002},lvb=$("#lvb");
+pr.onaudioprocess=e=>{const d=downsample(new Float32Array(e.inputBuffer.getChannelData(0)),ctx.sampleRate);let s=0,m=0;for(let i=0;i<d.length;i+=4){s+=d[i]*d[i];m++}const rms=Math.sqrt(s/Math.max(1,m)),v=rms>Math.max(.006,c.floor*3);if(!v)c.floor=c.floor*.95+rms*.05;lvb.style.width=Math.min(100,rms*600)+"%";if(c.live)c.chunks.push({d,v})};
+src.connect(pr);pr.connect(ctx.destination);
+$("#lvm").hidden=false;document.body.classList.add("pq");
+k=0;prevWs=[];misses=0;listening=true;
+$("#mic").classList.add("on");$("#ml").textContent="Loading… tap to cancel";say("Loading the Quran model…");
+const fail=e=>{if(cap===c)stop();say("The Quran model couldn’t run: "+em(e)+". Switch Engine back to Phone speech.")};
+try{await loadModel()}catch(err){fail(err);return}
+if(cap!==c)return;
+say("Warming up the model…");
+try{await PQ(new Float32Array(16000),{...OPT,max_new_tokens:4})}
+catch(e1){if(PQdev.indexOf("webgpu")===0){say("Graphics mode failed, switching to the slower processor mode…");try{PQ=null;await loadModel(true);await PQ(new Float32Array(16000),{...OPT,max_new_tokens:4})}catch(e2){fail(e2);return}}else{fail(e1);return}}
+if(cap!==c)return;
 if(pos>=flat.length){clearMarks();setStart(startV)}
 stopAudio();
-let ctx;try{ctx=new AC({sampleRate:16000})}catch(e){ctx=new AC()}
-const src=ctx.createMediaStreamSource(st),pr=ctx.createScriptProcessor(4096,1,1);
-const c=cap={st,ctx,src,pr,chunks:[],busy:false,timer:0};
-pr.onaudioprocess=e=>{const d=downsample(new Float32Array(e.inputBuffer.getChannelData(0)),ctx.sampleRate);let s=0;for(let i=0;i<d.length;i+=8)s+=d[i]*d[i];c.chunks.push({d,v:Math.sqrt(s/(d.length/8))>.012})};
-src.connect(pr);pr.connect(ctx.destination);
-k=0;prevWs=[];misses=0;listening=true;
-$("#mic").classList.add("on");document.body.classList.add("hide","rec");$("#hide").setAttribute("aria-pressed","true");$("#ml").textContent="Listening… tap to stop";
-say(`Recite from verse ${flat[pos]?flat[pos].vi+1:1}…`);
+document.body.classList.add("hide","rec");$("#hide").setAttribute("aria-pressed","true");$("#ml").textContent="Listening… tap to stop";
+c.chunks=[];c.live=true;
+say(`Listening (${PQdev}). Recite from verse ${flat[pos]?flat[pos].vi+1:1}. The bar above shows your voice level.`);
 c.timer=setInterval(tickPrecise,900)}
-async function tickPrecise(){const c=cap;if(!c||c.busy)return;const n=c.chunks.length;if(!n)return;
+async function tickPrecise(){const c=cap;if(!c||c.busy||!c.live)return;const n=c.chunks.length;if(!n)return;
 const ch=c.chunks.slice(0,n);
 if(!ch.some(x=>x.v)){if(n>6)c.chunks=c.chunks.slice(n-3);return}
 let tail=0;for(let i=n-1;i>=0&&!ch[i].v;i--)tail++;
 const len=ch.reduce((a,x)=>a+x.d.length,0),fin=tail>=3||len>14*16000;
 c.busy=true;
 try{const audio=new Float32Array(len);let o=0;for(const x of ch){audio.set(x.d,o);o+=x.d.length}
-const out=await PQ(audio,{language:"arabic",task:"transcribe",max_new_tokens:128});
+$("#hd").textContent="… transcribing";
+const out=await PQ(audio,OPT);
 if(cap!==c||!listening)return;
 const ws=norm((out&&out.text)||"").split(" ").filter(Boolean);
-ALT=[];processWords(ws,fin);$("#hd").textContent=ws.slice(-8).join(" ");
+ALT=[];processWords(ws,fin);$("#hd").textContent=ws.length?ws.slice(-8).join(" "):"(nothing recognised)";
 if(fin&&cap===c){c.chunks=c.chunks.slice(n);k=0;prevWs=[]}}
-catch(e){say("The Quran model hit a problem. Try again or switch Engine to Phone speech.")}
+catch(e){say("The Quran model hit a problem: "+em(e))}
 finally{c.busy=false}}
-function stopPrecise(){const c=cap;cap=null;if(!c)return;clearInterval(c.timer);try{c.pr.disconnect();c.src.disconnect()}catch(e){}try{c.st.getTracks().forEach(t=>t.stop())}catch(e){}try{c.ctx.close()}catch(e){}}
+function stopPrecise(){const c=cap;cap=null;document.body.classList.remove("pq");const lm=$("#lvm");if(lm)lm.hidden=true;if(!c)return;clearInterval(c.timer);try{c.pr.disconnect();c.src.disconnect()}catch(e){}try{c.st.getTracks().forEach(t=>t.stop())}catch(e){}try{c.ctx.close()}catch(e){}}
 /* speech */
 let rec=null,listening=false,k=0,prevWs=[];
 function stop(){listening=false;document.body.classList.remove("rec");stopPrecise();try{rec&&rec.abort()}catch(e){}rec=null;const m=$("#mic");if(m){m.classList.remove("on");$("#ml").textContent="Start reciting"}}
