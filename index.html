@@ -77,7 +77,7 @@ const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 const norm=t=>t.replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g,"").replace(/[إأآٱ]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه").replace(/ؤ/g,"و").replace(/ئ/g,"ي").replace(/[^\u0621-\u064A ]/g,"").trim();
 const FOLD={"ث":"س","ص":"س","ذ":"ز","ظ":"ز","ض":"د","ط":"ت","ء":""};
-const cmp=t=>{let s=norm(t.replace(/و(?=\u0670)/g,"").replace(/\u06E7/g,"ي"));s=s.replace(/[ثصذظضطء]/g,c=>FOLD[c]);return s.replace(/ا/g,"").replace(/\s+/g,"")};
+const cmp=t=>{let s=norm(t.replace(/[ؤئء]/g,"").replace(/و(?=\u0670)/g,"").replace(/ى(?=[\u064B-\u065F]*\u0670[\u064B-\u065F]*ة)/g,"").replace(/\u06E7/g,"ي"));s=s.replace(/[ثصذظضطء]/g,c=>FOLD[c]);return s.replace(/ا/g,"").replace(/\s+/g,"")};
 function lev(a,b){const m=a.length,n=b.length,d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
 const sim=(a,b)=>a===b?1:(a&&b?1-lev(a,b)/Math.max(a.length,b.length):0);const like=(a,b)=>a===b||(!S.strict&&Math.max(a.length,b.length)>2&&sim(a,b)>=.5);
 let S={fs:30,tr:true,last:0,strict:true,eng:"p"};try{Object.assign(S,JSON.parse(localStorage.getItem("hifz")||"{}"))}catch(e){}
