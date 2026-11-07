@@ -50,7 +50,7 @@ header small{display:block;font-size:13px;font-weight:400;color:var(--mute)}
 @media (prefers-reduced-motion:no-preference){.mic.on{animation:p 1.6s infinite}@keyframes p{50%{box-shadow:0 0 0 8px rgba(194,59,59,.18)}}}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .rec .tr,.rec .n{display:none}.rec #hd{display:none}
-.lis{display:flex;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.lis select{flex:1;min-width:0;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:0 10px;font:inherit}.pl{flex:none;min-width:44px;height:36px;border-radius:18px;border:1px solid var(--line);background:var(--card);font-weight:600;padding:0 12px}.vt{display:flex;gap:8px;align-items:center}.v.now{background:color-mix(in srgb,var(--brand) 14%,transparent);border-radius:12px;margin:0 -8px;padding-left:8px;padding-right:8px}.rec .pl,.rec .lis{display:none}
+.lis{display:flex;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.lis select{flex:1;min-width:0;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:0 10px;font:inherit}.pl{flex:none;min-width:44px;height:36px;border-radius:18px;border:1px solid var(--line);background:var(--card);font-weight:600;padding:0 12px}.vt{display:flex;gap:8px;align-items:center}.v.now{background:color-mix(in srgb,var(--brand) 14%,transparent);border-radius:12px;margin:0 -8px;padding-left:8px;padding-right:8px}.rec .pl,.rec .lis{display:none}.pl[aria-pressed=true]{background:var(--ink);color:var(--bg)}
 .dlg{width:100%;max-width:340px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 20px 8px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.35)}.dlg h2{font-size:21px;margin:0 0 8px}.dlg p{color:var(--mute);margin:0 0 18px}.dlg hr{border:0;border-top:1px solid var(--line);margin:0}.dl{display:block;width:100%;background:none;border:0;padding:16px;font-weight:700;color:var(--brand)}
 .sheet{width:100%;max-width:720px;background:var(--card);border-radius:20px 20px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(0,0,0,.2)}.sheet h2{margin:0 0 6px;font-size:20px}.sheet ol{margin:8px 0;padding-left:20px;color:var(--mute);font-size:15px}.lv{height:8px;border-radius:4px;background:var(--mask);margin:12px 0;overflow:hidden}.lv i{display:block;height:100%;width:0;background:var(--ok)}.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 [hidden]{display:none!important}
@@ -65,7 +65,7 @@ header small{display:block;font-size:13px;font-weight:400;color:var(--mute)}
 <button class="ib" id="fp" aria-label="Larger text">A+</button>
 </header>
 <main class="wrap" id="list"><input id="search" type="search" placeholder="Search by name or number" autocomplete="off"><div id="cont"></div><div id="rows"></div></main>
-<main class="wrap" id="reader" hidden><div class="lis"><select id="rc" aria-label="Reciter"></select><button class="pl" id="pa" style="height:44px">▶ Play surah</button></div><div id="verses"></div><div id="ap" hidden style="position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:24px"><div class="dlg" role="alertdialog" aria-labelledby="apt"><h2 id="apt">Access Your Microphone</h2><p>To check your recitation, Hifz needs to hear you. Tap “Enable Access”, then choose Allow when your phone asks.</p><hr><button class="dl" id="apy">Enable Access</button><button class="dl" id="apn">Do not allow</button></div></div><div id="mp" hidden style="position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:grid;place-items:end center"><div class="sheet" role="dialog" aria-label="Microphone setup"><h2>Microphone</h2><p id="mps" style="margin:0 0 4px"></p><div class="lv"><i id="lvi"></i></div><ol id="mpl" hidden><li>Android Settings → Apps → Chrome → Permissions → Microphone → Allow.</li><li>In Chrome, tap the lock icon next to the address, then Permissions, and allow Microphone for this site.</li></ol><div class="btns"><button class="mic" id="mpgo" style="flex:none;padding:0 22px">Allow &amp; test microphone</button><a id="ob2" class="tg" href="#" target="_blank" rel="noopener" hidden style="display:grid;place-items:center;text-decoration:none;color:inherit">Open in browser</a><button class="tg" id="mpx">Close</button></div></div></div>
+<main class="wrap" id="reader" hidden><div class="lis"><select id="rc" aria-label="Reciter"></select><button class="pl" id="pa" style="height:44px">▶ Play surah</button><button class="pl" id="sb" aria-pressed="true" style="height:44px" aria-label="Strict letter checking">Strict</button></div><div id="verses"></div><div id="ap" hidden style="position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:24px"><div class="dlg" role="alertdialog" aria-labelledby="apt"><h2 id="apt">Access Your Microphone</h2><p>To check your recitation, Hifz needs to hear you. Tap “Enable Access”, then choose Allow when your phone asks.</p><hr><button class="dl" id="apy">Enable Access</button><button class="dl" id="apn">Do not allow</button></div></div><div id="mp" hidden style="position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:grid;place-items:end center"><div class="sheet" role="dialog" aria-label="Microphone setup"><h2>Microphone</h2><p id="mps" style="margin:0 0 4px"></p><div class="lv"><i id="lvi"></i></div><ol id="mpl" hidden><li>Android Settings → Apps → Chrome → Permissions → Microphone → Allow.</li><li>In Chrome, tap the lock icon next to the address, then Permissions, and allow Microphone for this site.</li></ol><div class="btns"><button class="mic" id="mpgo" style="flex:none;padding:0 22px">Allow &amp; test microphone</button><a id="ob2" class="tg" href="#" target="_blank" rel="noopener" hidden style="display:grid;place-items:center;text-decoration:none;color:inherit">Open in browser</a><button class="tg" id="mpx">Close</button></div></div></div>
 <div class="bar"><div>
 <p id="st" role="status">Tap a verse number to choose where to start.</p><a id="ob" href="#" target="_blank" rel="noopener" hidden style="display:inline-block;margin:0 0 8px;font-weight:700;color:var(--brand)">Open in browser</a><p id="hd" lang="ar"></p>
 <div class="ctl"><button class="tg" id="hide" aria-pressed="false">Hide text</button>
@@ -77,10 +77,10 @@ const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 const norm=t=>t.replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g,"").replace(/[إأآٱ]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه").replace(/ؤ/g,"و").replace(/ئ/g,"ي").replace(/[^\u0621-\u064A ]/g,"").trim();
 const FOLD={"ث":"س","ص":"س","ذ":"ز","ظ":"ز","ض":"د","ط":"ت","ء":""};
-const cmp=t=>norm(t).replace(/[ثصذظضطء]/g,c=>FOLD[c]).replace(/ا/g,"").replace(/\s+/g,"");
+const cmp=t=>{let s=norm(t.replace(/و(?=\u0670)/g,"").replace(/\u06E7/g,"ي"));s=S.strict?s.replace(/ء/g,""):s.replace(/[ثصذظضطء]/g,c=>FOLD[c]);return s.replace(/ا/g,"").replace(/\s+/g,"")};
 function lev(a,b){const m=a.length,n=b.length,d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
-const sim=(a,b)=>a===b?1:(a&&b?1-lev(a,b)/Math.max(a.length,b.length):0);const like=(a,b)=>a===b||(Math.max(a.length,b.length)>2&&sim(a,b)>=.5);
-let S={fs:30,tr:true,last:0};try{Object.assign(S,JSON.parse(localStorage.getItem("hifz")||"{}"))}catch(e){}
+const sim=(a,b)=>a===b?1:(a&&b?1-lev(a,b)/Math.max(a.length,b.length):0);const like=(a,b)=>a===b||(!S.strict&&Math.max(a.length,b.length)>2&&sim(a,b)>=.5);
+let S={fs:30,tr:true,last:0,strict:true};try{Object.assign(S,JSON.parse(localStorage.getItem("hifz")||"{}"))}catch(e){}
 const save=()=>{try{localStorage.setItem("hifz",JSON.stringify(S))}catch(e){}};
 function applyPrefs(){document.documentElement.style.setProperty("--fs",S.fs);document.body.classList.toggle("notr",!S.tr);$("#tt").setAttribute("aria-pressed",S.tr)}
 /* list */
@@ -95,7 +95,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Enter"){const r=e.target.clo
 let cur=0,flat=[],vStart=[],pos=0,startV=0,lastV=-1,mistakes=0;
 function openSurah(n){stop();stopAudio();cur=n;S.last=n;save();const s=DATA[n-1];flat=[];vStart=[];pos=0;startV=0;lastV=-1;mistakes=0;
 let h=n!==1&&n!==9?`<div class="bism" lang="ar">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</div>`:"";
-s[4].forEach((v,vi)=>{vStart.push(flat.length);const sp=v[0].split(" ").map(w=>{const i=flat.length;flat.push({c:cmp(w),vi,el:null});return `<span class="w" data-g="${i}">${w}</span>`}).join(" ");
+s[4].forEach((v,vi)=>{vStart.push(flat.length);const sp=v[0].split(" ").map(w=>{const i=flat.length;flat.push({c:cmp(w),w,vi,el:null});return `<span class="w" data-g="${i}">${w}</span>`}).join(" ");
 h+=`<div class="v"><div class="vt"><button class="n" data-v="${vi}" aria-label="Start from verse ${vi+1}">${vi+1}</button><button class="pl" data-p="${vi}" aria-label="Listen to verse ${vi+1}">▶</button></div><p class="ar" dir="rtl" lang="ar">${sp}</p><p class="tr">${esc(v[1])}</p></div>`});
 $("#verses").innerHTML=h;$$(".w").forEach(e=>flat[+e.dataset.g].el=e);
 $("#ttl").innerHTML=`${esc(s[1])}<small>${esc(s[2])} · ${s[4].length} verses</small>`;
@@ -112,7 +112,9 @@ $("#verses").addEventListener("click",e=>{const p=e.target.closest(".pl");if(p)r
 function say(t){$("#st").textContent=t}
 function clearMarks(){flat.forEach(f=>f.el.classList.remove("ok","bad","wrong","cur"))}
 function setStart(vi){startV=vi;pos=vStart[vi];lastV=-1;k=listening?prevWs.length:0;if(!listening)prevWs=[];misses=0;adv();say(listening?`Recite from verse ${vi+1}…`:`Starting from verse ${vi+1}. Tap Start reciting.`)}
-$("#rs").onclick=()=>{const vi=flat[Math.min(pos,flat.length-1)].vi;setStart(pos<flat.length&&pos===vStart[vi]&&vi>0&&flat[vStart[vi-1]].el.classList.contains("ok")?vi-1:vi)};
+$("#sb").setAttribute("aria-pressed",S.strict);$("#sb").onclick=()=>{S.strict=!S.strict;save();$("#sb").setAttribute("aria-pressed",S.strict);flat.forEach(f=>f.c=cmp(f.w));say(S.strict?"Strict: every letter must match.":"Relaxed: similar-sounding words are accepted.")};
+$("#rs").onclick=()=>{if(listening){const vi=flat[Math.min(pos,flat.length-1)].vi;setStart(pos<flat.length&&pos===vStart[vi]&&vi>0&&flat[vStart[vi-1]].el.classList.contains("ok")?vi-1:vi);return}
+clearMarks();mistakes=0;document.body.classList.add("hide");$("#hide").setAttribute("aria-pressed","true");setStart(startV);say("Reset. All text is hidden. Tap Start reciting.")};
 function adv(){const c=$(".w.cur");if(c)c.classList.remove("cur");while(pos<flat.length&&flat[pos].c===""){flat[pos].el.classList.add("ok");pos++}
 const f=flat[pos];if(f){f.el.classList.add("cur");if(f.vi!==lastV){lastV=f.vi;f.el.closest(".v").scrollIntoView({block:"center",behavior:"smooth"})}}}
 /* reciters */
@@ -132,7 +134,8 @@ function stopAudio(){chain=false;playing=-1;try{au.pause()}catch(e){}setNow(-1)}
 let ac;function beep(){try{const o=ac.createOscillator(),g=ac.createGain();o.type="square";o.frequency.value=330;g.gain.value=.12;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+.28)}catch(e){}}
 function flash(i){const el=flat[i].el;el.classList.add("wrong");setTimeout(()=>el.classList.remove("wrong"),1400)}
 let misses=0;
-const likeS=(a,b)=>a===b||(Math.max(a.length,b.length)>3&&sim(a,b)>=.75);
+const likeS=(a,b)=>a===b||(!S.strict&&Math.max(a.length,b.length)>3&&sim(a,b)>=.75);
+function diffMsg(e,c){let i=0;while(i<e.length&&i<c.length&&e[i]===c[i])i++;if(c.length<e.length&&c.slice(i)===e.slice(i+1))return`Missing letter “${e[i]}” in the highlighted word.`;if(c.length>e.length&&c.slice(i+1)===e.slice(i))return`Extra letter “${c[i]}” in the highlighted word.`;if(c.length===e.length&&c.slice(i+1)===e.slice(i+1))return`“${e[i]}” sounded like “${c[i]}” in the highlighted word.`;return""}
 const okw=i=>{const c=flat[i].el.classList;c.remove("bad","wrong");c.add("ok")},badw=i=>flat[i].el.classList.add("bad");
 function anchor(ws,k,n,fin,c,back){
 const vi=flat[pos].vi,vs=vStart[vi],pv=vi>0?vStart[vi-1]:vs;let js=[];
@@ -157,7 +160,7 @@ if(e2&&c.length>3&&like(c,e2)){badw(pos);badw(pos+1);beep();mistakes++;okw(pos+2
 a=anchor(ws,k,n,fin,c,false);if(a===0)return 0;
 if(a){for(let i=pos;i<a.j;i++)badw(i);beep();mistakes++;for(let t=0;t<a.used;t++)okw(a.j+t);pos=a.j+a.used;misses=0;return a.used}
 misses++;beep();mistakes++;flash(pos);
-if(misses>=3){badw(pos);pos++;misses=0;say("Skipped a word the phone couldn’t match. Keep going.")}else say("Mistake. The highlighted word is next. Say it again.");
+if(misses>=3){badw(pos);pos++;misses=0;say("Skipped a word the phone couldn’t match. Keep going.")}else{const d=sim(c,e0)>=.5?diffMsg(e0,c):"";say((d||"Mistake.")+" Say the highlighted word again.")}
 return 1}
 function processWords(ws,fin){let n=ws.length;if(!fin){n=Math.max(0,n-1);let s=0;while(s<n&&prevWs[s]===ws[s])s++;n=s}prevWs=ws;
 while(k<n&&listening&&pos<flat.length){const used=step(ws,k,n,fin);if(!used)break;k+=used;adv()}
