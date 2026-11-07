@@ -77,7 +77,7 @@ const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 const norm=t=>t.replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g,"").replace(/[إأآٱ]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه").replace(/ؤ/g,"و").replace(/ئ/g,"ي").replace(/[^\u0621-\u064A ]/g,"").trim();
 const FOLD={"ث":"س","ص":"س","ذ":"ز","ظ":"ز","ض":"د","ط":"ت","ء":""};
-const cmp=t=>{let s=norm(t.replace(/و(?=\u0670)/g,"").replace(/\u06E7/g,"ي"));s=S.strict?s.replace(/ء/g,""):s.replace(/[ثصذظضطء]/g,c=>FOLD[c]);return s.replace(/ا/g,"").replace(/\s+/g,"")};
+const cmp=t=>{let s=norm(t.replace(/و(?=\u0670)/g,"").replace(/\u06E7/g,"ي"));s=s.replace(/[ثصذظضطء]/g,c=>FOLD[c]);return s.replace(/ا/g,"").replace(/\s+/g,"")};
 function lev(a,b){const m=a.length,n=b.length,d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
 const sim=(a,b)=>a===b?1:(a&&b?1-lev(a,b)/Math.max(a.length,b.length):0);const like=(a,b)=>a===b||(!S.strict&&Math.max(a.length,b.length)>2&&sim(a,b)>=.5);
 let S={fs:30,tr:true,last:0,strict:true,eng:"p"};try{Object.assign(S,JSON.parse(localStorage.getItem("hifz")||"{}"))}catch(e){}
@@ -112,7 +112,7 @@ $("#verses").addEventListener("click",e=>{const p=e.target.closest(".pl");if(p)r
 function say(t){$("#st").textContent=t}
 function clearMarks(){flat.forEach(f=>f.el.classList.remove("ok","bad","wrong","cur"))}
 function setStart(vi){startV=vi;pos=vStart[vi];lastV=-1;k=listening?prevWs.length:0;if(!listening)prevWs=[];misses=0;adv();say(listening?`Recite from verse ${vi+1}…`:`Starting from verse ${vi+1}. Tap Start reciting.`)}
-$("#sb").setAttribute("aria-pressed",S.strict);$("#sb").onclick=()=>{S.strict=!S.strict;save();$("#sb").setAttribute("aria-pressed",S.strict);flat.forEach(f=>f.c=cmp(f.w));say(S.strict?"Strict: every letter must match.":"Relaxed: similar-sounding words are accepted.")};
+$("#sb").setAttribute("aria-pressed",S.strict);$("#sb").onclick=()=>{S.strict=!S.strict;save();$("#sb").setAttribute("aria-pressed",S.strict);flat.forEach(f=>f.c=cmp(f.w));say(S.strict?"Strict: no letter may be left out. Similar-sounding swaps like ث/س are tolerated.":"Relaxed: similar-sounding words are accepted.")};
 $("#rs").onclick=()=>{if(listening){const vi=flat[Math.min(pos,flat.length-1)].vi;setStart(pos<flat.length&&pos===vStart[vi]&&vi>0&&flat[vStart[vi-1]].el.classList.contains("ok")?vi-1:vi);return}
 clearMarks();mistakes=0;document.body.classList.add("hide");$("#hide").setAttribute("aria-pressed","true");setStart(startV);say("Reset. All text is hidden. Tap Start reciting.")};
 function adv(){const c=$(".w.cur");if(c)c.classList.remove("cur");while(pos<flat.length&&flat[pos].c===""){flat[pos].el.classList.add("ok");pos++}
@@ -149,23 +149,28 @@ else if(!fin)wait=true}
 return wait?0:null}
 function step(ws,k,n,fin){const c=cmp(ws[k]);if(!c)return 1;
 const e0=flat[pos].c,e1=pos+1<flat.length?flat[pos+1].c:"",e2=pos+2<flat.length?flat[pos+2].c:"";
-if(like(c,e0)){if(c!==e0){if(!fin&&k+1>=n)return 0;if(k+1<n){const a=anchor(ws,k,n,fin,c,true);if(a&&a.used===2&&a.j<pos&&flat[a.j].c===c){for(let t=0;t<2;t++)okw(a.j+t);pos=a.j+2;misses=0;say(`Restarted verse ${flat[a.j].vi+1}`);return 2}}}okw(pos);pos++;misses=0;return 1}
+const al=(ALT[k]||[]).map(cmp),viaAlt=!like(c,e0)&&al.some(a=>like(a,e0));
+if(viaAlt||like(c,e0)){if(!viaAlt&&c!==e0){if(!fin&&k+1>=n)return 0;if(k+1<n){const a=anchor(ws,k,n,fin,c,true);if(a&&a.used===2&&a.j<pos&&flat[a.j].c===c){for(let t=0;t<2;t++)okw(a.j+t);pos=a.j+2;misses=0;say(`Restarted verse ${flat[a.j].vi+1}`);return 2}}}okw(pos);pos++;misses=0;return 1}
 if(k+1<n){const c2=cmp(ws[k+1]);if(c2&&likeS(c+c2,e0)){okw(pos);pos++;misses=0;return 2}}
 else if(!fin&&c.length<e0.length&&e0.startsWith(c))return 0;
 if(e1&&likeS(c,e0+e1)){okw(pos);okw(pos+1);pos+=2;misses=0;return 1}
 let a=anchor(ws,k,n,fin,c,true);if(a===0)return 0;
 if(a){for(let t=0;t<a.used;t++)okw(a.j+t);pos=a.j+a.used;misses=0;say(`Restarted verse ${flat[a.j].vi+1}`);return a.used}
-if(e1&&like(c,e1)){badw(pos);beep();mistakes++;okw(pos+1);pos+=2;misses=0;return 1}
+if(e1&&like(c,e1)){if(e0.length<=2){okw(pos);okw(pos+1);pos+=2;misses=0;return 1}badw(pos);beep();mistakes++;okw(pos+1);pos+=2;misses=0;return 1}
 if(e2&&c.length>3&&like(c,e2)){badw(pos);badw(pos+1);beep();mistakes++;okw(pos+2);pos+=3;misses=0;return 1}
 a=anchor(ws,k,n,fin,c,false);if(a===0)return 0;
 if(a){for(let i=pos;i<a.j;i++)badw(i);beep();mistakes++;for(let t=0;t<a.used;t++)okw(a.j+t);pos=a.j+a.used;misses=0;return a.used}
+if(k+1<n&&e1){const c2=cmp(ws[k+1]);if(c2&&like(c2,e1)){const d=sim(c,e0)>=.5?diffMsg(e0,c):"";badw(pos);beep();mistakes++;okw(pos+1);pos+=2;misses=0;say((d||`Heard “${ws[k]}”.`)+" Marked red, keep going.");return 2}}
 misses++;beep();mistakes++;flash(pos);
-if(misses>=3){badw(pos);pos++;misses=0;say("Skipped a word the phone couldn’t match. Keep going.")}else{const d=sim(c,e0)>=.5?diffMsg(e0,c):"";say((d||"Mistake.")+" Say the highlighted word again.")}
+if(misses>=3){badw(pos);pos++;misses=0;say("Skipped a word the phone couldn’t match. Keep going.")}else{const d=sim(c,e0)>=.5?diffMsg(e0,c):"";say((d||`Heard “${ws[k]}”.`)+" Say the highlighted word again.")}
 return 1}
 function processWords(ws,fin){let n=ws.length;if(!fin){n=Math.max(0,n-1);let s=0;while(s<n&&prevWs[s]===ws[s])s++;n=s}prevWs=ws;
 while(k<n&&listening&&pos<flat.length){const used=step(ws,k,n,fin);if(!used)break;k+=used;adv()}
 if(pos>=flat.length){stop();say(`Surah complete. Mistakes: ${mistakes}.`)}}
-function buildWords(rs){let acc="";for(let i=0;i<rs.length;i++){const t=norm(rs[i][0].transcript);if(!t)continue;acc=acc&&t.startsWith(acc)?t:(acc?acc+" "+t:t)}return acc.split(" ").filter(Boolean)}
+let ALT=[];
+function buildWords(rs){let acc="",alts=[];for(let i=0;i<rs.length;i++){const t=norm(rs[i][0].transcript);if(!t)continue;const tw=t.split(" ").filter(Boolean),cum=acc&&t.startsWith(acc);let off;if(cum){off=0;alts=[]}else off=acc?acc.split(" ").filter(Boolean).length:0;acc=cum?t:(acc?acc+" "+t:t);
+for(let a=1;a<(rs[i].length||0);a++){const aw=norm(rs[i][a].transcript).split(" ").filter(Boolean);aw.forEach((x,p)=>{(alts[off+p]=alts[off+p]||[]).push(x)})}}
+ALT=alts;return acc.split(" ").filter(Boolean)}
 /* precise engine: Quran-trained Whisper, runs on the phone (hosted copy only) */
 const TJS="https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.6",MODEL="iqbalaesthetic/Basira";
 let PQ=null,cap=null;
@@ -208,7 +213,7 @@ try{const audio=new Float32Array(len);let o=0;for(const x of ch){audio.set(x.d,o
 const out=await PQ(audio,{language:"arabic",task:"transcribe",max_new_tokens:128});
 if(cap!==c||!listening)return;
 const ws=norm((out&&out.text)||"").split(" ").filter(Boolean);
-processWords(ws,fin);$("#hd").textContent=ws.slice(-8).join(" ");
+ALT=[];processWords(ws,fin);$("#hd").textContent=ws.slice(-8).join(" ");
 if(fin&&cap===c){c.chunks=c.chunks.slice(n);k=0;prevWs=[]}}
 catch(e){say("The Quran model hit a problem. Try again or switch Engine to Phone speech.")}
 finally{c.busy=false}}
@@ -234,7 +239,7 @@ say("Asking for microphone access…");
 if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){try{const st=await navigator.mediaDevices.getUserMedia({audio:true});st.getTracks().forEach(t=>t.stop())}catch(err){micFail(err);return}}else{micFail({name:"NotSupportedError"});return}
 $("#ob").hidden=true;
 if(pos>=flat.length){clearMarks();setStart(startV)}
-rec=new SR();rec.lang="ar-SA";rec.continuous=true;rec.interimResults=true;k=0;prevWs=[];
+rec=new SR();rec.lang="ar-SA";rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=5;k=0;prevWs=[];
 rec.onresult=e=>{const ws=buildWords(e.results);processWords(ws,e.results[e.results.length-1].isFinal);$("#hd").textContent=ws.slice(-8).join(" ")};
 rec.onerror=e=>{const m={"not-allowed":"Microphone blocked. Allow mic access for this site in Chrome.","service-not-allowed":"Microphone blocked. Allow mic access for this site in Chrome.","network":"Speech recognition needs an internet connection.","language-not-supported":"Arabic speech recognition isn’t supported on this device."}[e.error];if(m){stop();if(e.error==="not-allowed"||e.error==="service-not-allowed")micFail({name:"NotAllowedError"});else say(m)}};
 rec.onend=()=>{if(listening){k=0;prevWs=[];try{rec.start()}catch(e){}}};
