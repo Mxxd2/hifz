@@ -49,6 +49,7 @@ header small{display:block;font-size:13px;font-weight:400;color:var(--mute)}
 @media (prefers-reduced-motion:no-preference){.mic.on{animation:p 1.6s infinite}@keyframes p{50%{box-shadow:0 0 0 8px rgba(194,59,59,.18)}}}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .rec .tr,.rec .n{display:none}.rec #hd{display:none}
+.lis{display:flex;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.lis select{flex:1;min-width:0;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:0 10px;font:inherit}.pl{flex:none;min-width:44px;height:36px;border-radius:18px;border:1px solid var(--line);background:var(--card);font-weight:600;padding:0 12px}.vt{display:flex;gap:8px;align-items:center}.v.now{background:color-mix(in srgb,var(--brand) 14%,transparent);border-radius:12px;margin:0 -8px;padding-left:8px;padding-right:8px}.rec .pl,.rec .lis{display:none}
 .dlg{width:100%;max-width:340px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 20px 8px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.35)}.dlg h2{font-size:21px;margin:0 0 8px}.dlg p{color:var(--mute);margin:0 0 18px}.dlg hr{border:0;border-top:1px solid var(--line);margin:0}.dl{display:block;width:100%;background:none;border:0;padding:16px;font-weight:700;color:var(--brand)}
 .sheet{width:100%;max-width:720px;background:var(--card);border-radius:20px 20px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(0,0,0,.2)}.sheet h2{margin:0 0 6px;font-size:20px}.sheet ol{margin:8px 0;padding-left:20px;color:var(--mute);font-size:15px}.lv{height:8px;border-radius:4px;background:var(--mask);margin:12px 0;overflow:hidden}.lv i{display:block;height:100%;width:0;background:var(--ok)}.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 [hidden]{display:none!important}
@@ -63,7 +64,7 @@ header small{display:block;font-size:13px;font-weight:400;color:var(--mute)}
 <button class="ib" id="fp" aria-label="Larger text">A+</button>
 </header>
 <main class="wrap" id="list"><input id="search" type="search" placeholder="Search by name or number" autocomplete="off"><div id="cont"></div><div id="rows"></div></main>
-<main class="wrap" id="reader" hidden><div id="verses"></div><div id="ap" hidden style="position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:24px"><div class="dlg" role="alertdialog" aria-labelledby="apt"><h2 id="apt">Access Your Microphone</h2><p>To check your recitation, Hifz needs to hear you. Tap “Enable Access”, then choose Allow when your phone asks.</p><hr><button class="dl" id="apy">Enable Access</button><button class="dl" id="apn">Do not allow</button></div></div><div id="mp" hidden style="position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:grid;place-items:end center"><div class="sheet" role="dialog" aria-label="Microphone setup"><h2>Microphone</h2><p id="mps" style="margin:0 0 4px"></p><div class="lv"><i id="lvi"></i></div><ol id="mpl" hidden><li>Android Settings → Apps → Chrome → Permissions → Microphone → Allow.</li><li>In Chrome, tap the lock icon next to the address, then Permissions, and allow Microphone for this site.</li></ol><div class="btns"><button class="mic" id="mpgo" style="flex:none;padding:0 22px">Allow &amp; test microphone</button><a id="ob2" class="tg" href="#" target="_blank" rel="noopener" hidden style="display:grid;place-items:center;text-decoration:none;color:inherit">Open in browser</a><button class="tg" id="mpx">Close</button></div></div></div>
+<main class="wrap" id="reader" hidden><div class="lis"><select id="rc" aria-label="Reciter"></select><button class="pl" id="pa" style="height:44px">▶ Play surah</button></div><div id="verses"></div><div id="ap" hidden style="position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:24px"><div class="dlg" role="alertdialog" aria-labelledby="apt"><h2 id="apt">Access Your Microphone</h2><p>To check your recitation, Hifz needs to hear you. Tap “Enable Access”, then choose Allow when your phone asks.</p><hr><button class="dl" id="apy">Enable Access</button><button class="dl" id="apn">Do not allow</button></div></div><div id="mp" hidden style="position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:grid;place-items:end center"><div class="sheet" role="dialog" aria-label="Microphone setup"><h2>Microphone</h2><p id="mps" style="margin:0 0 4px"></p><div class="lv"><i id="lvi"></i></div><ol id="mpl" hidden><li>Android Settings → Apps → Chrome → Permissions → Microphone → Allow.</li><li>In Chrome, tap the lock icon next to the address, then Permissions, and allow Microphone for this site.</li></ol><div class="btns"><button class="mic" id="mpgo" style="flex:none;padding:0 22px">Allow &amp; test microphone</button><a id="ob2" class="tg" href="#" target="_blank" rel="noopener" hidden style="display:grid;place-items:center;text-decoration:none;color:inherit">Open in browser</a><button class="tg" id="mpx">Close</button></div></div></div>
 <div class="bar"><div>
 <p id="st" role="status">Tap a verse number to choose where to start.</p><a id="ob" href="#" target="_blank" rel="noopener" hidden style="display:inline-block;margin:0 0 8px;font-weight:700;color:var(--brand)">Open in browser</a><p id="hd" lang="ar"></p>
 <div class="ctl"><button class="tg" id="hide" aria-pressed="false">Hide text</button>
@@ -90,14 +91,14 @@ document.addEventListener("click",e=>{const r=e.target.closest("[data-n]");if(r&
 document.addEventListener("keydown",e=>{if(e.key==="Enter"){const r=e.target.closest(".row");if(r)location.hash="surah-"+r.dataset.n}});
 /* reader */
 let cur=0,flat=[],vStart=[],pos=0,startV=0,lastV=-1,mistakes=0;
-function openSurah(n){stop();cur=n;S.last=n;save();const s=DATA[n-1];flat=[];vStart=[];pos=0;startV=0;lastV=-1;mistakes=0;
+function openSurah(n){stop();stopAudio();cur=n;S.last=n;save();const s=DATA[n-1];flat=[];vStart=[];pos=0;startV=0;lastV=-1;mistakes=0;
 let h=n!==1&&n!==9?`<div class="bism" lang="ar">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</div>`:"";
 s[4].forEach((v,vi)=>{vStart.push(flat.length);const sp=v[0].split(" ").map(w=>{const i=flat.length;flat.push({c:cmp(w),vi,el:null});return `<span class="w" data-g="${i}">${w}</span>`}).join(" ");
-h+=`<div class="v"><button class="n" data-v="${vi}" aria-label="Start from verse ${vi+1}">${vi+1}</button><p class="ar" dir="rtl" lang="ar">${sp}</p><p class="tr">${esc(v[1])}</p></div>`});
+h+=`<div class="v"><div class="vt"><button class="n" data-v="${vi}" aria-label="Start from verse ${vi+1}">${vi+1}</button><button class="pl" data-p="${vi}" aria-label="Listen to verse ${vi+1}">▶</button></div><p class="ar" dir="rtl" lang="ar">${sp}</p><p class="tr">${esc(v[1])}</p></div>`});
 $("#verses").innerHTML=h;$$(".w").forEach(e=>flat[+e.dataset.g].el=e);
 $("#ttl").innerHTML=`${esc(s[1])}<small>${esc(s[2])} · ${s[4].length} verses</small>`;
 $("#list").hidden=true;$("#hl").hidden=true;$("#reader").hidden=false;$("#hr").hidden=false;scrollTo(0,0);say("Tap a verse number to choose where to start.");$("#hd").textContent="";adv()}
-function showList(){stop();$("#list").hidden=false;$("#hl").hidden=false;$("#reader").hidden=true;$("#hr").hidden=true;renderList($("#search").value)}
+function showList(){stop();stopAudio();$("#list").hidden=false;$("#hl").hidden=false;$("#reader").hidden=true;$("#hr").hidden=true;renderList($("#search").value)}
 function route(){const m=location.hash.match(/^#surah-(\d+)$/);if(m&&DATA[m[1]-1])openSurah(+m[1]);else showList()}
 addEventListener("hashchange",route);
 $("#back").onclick=()=>{location.hash=""};
@@ -105,13 +106,26 @@ $("#tt").onclick=()=>{S.tr=!S.tr;save();applyPrefs()};
 $("#fm").onclick=()=>{S.fs=Math.max(20,S.fs-3);save();applyPrefs()};
 $("#fp").onclick=()=>{S.fs=Math.min(54,S.fs+3);save();applyPrefs()};
 $("#hide").onclick=e=>{const on=document.body.classList.toggle("hide");e.currentTarget.setAttribute("aria-pressed",on)};
-$("#verses").addEventListener("click",e=>{const n=e.target.closest(".n");if(n)return setStart(+n.dataset.v);const w=e.target.closest(".w");if(w)return w.classList.toggle("peek");const t=e.target.closest(".tr");if(t)t.classList.toggle("peek")});
+$("#verses").addEventListener("click",e=>{const p=e.target.closest(".pl");if(p)return playV(+p.dataset.p);const n=e.target.closest(".n");if(n)return setStart(+n.dataset.v);const w=e.target.closest(".w");if(w)return w.classList.toggle("peek");const t=e.target.closest(".tr");if(t)t.classList.toggle("peek")});
 function say(t){$("#st").textContent=t}
 function clearMarks(){flat.forEach(f=>f.el.classList.remove("ok","bad","wrong","cur"))}
 function setStart(vi){startV=vi;clearMarks();pos=vStart[vi];mistakes=0;lastV=-1;k=0;adv();say(listening?`Recite from verse ${vi+1}…`:`Starting from verse ${vi+1}. Tap Start reciting.`)}
 $("#rs").onclick=()=>setStart(startV);
 function adv(){const c=$(".w.cur");if(c)c.classList.remove("cur");while(pos<flat.length&&flat[pos].c===""){flat[pos].el.classList.add("ok");pos++}
 const f=flat[pos];if(f){f.el.classList.add("cur");if(f.vi!==lastV){lastV=f.vi;f.el.closest(".v").scrollIntoView({block:"center",behavior:"smooth"})}}}
+/* reciters */
+const RC=[["Mishary Alafasy","ar.alafasy"],["Abdul Basit Abdus-Samad","ar.abdulbasitmurattal"],["Mahmoud Al-Husary","ar.husary"],["Mohamed Al-Minshawi","ar.minshawi"],["Abdur-Rahman As-Sudais","ar.abdurrahmaansudais"],["Abu Bakr Ash-Shatri","ar.shaatree"],["Abdullah Basfar","ar.abdullahbasfar"],["Ali Al-Hudhaify","ar.hudhaify"],["Maher Al-Muaiqly","ar.mahermuaiqly"],["Muhammad Jibreel","ar.muhammadjibreel"]],BR=[128,64,32,192],OFF=[];
+{let t=0;DATA.forEach(s=>{OFF.push(t);t+=s[4].length})}
+$("#rc").innerHTML=RC.map((r,i)=>`<option value="${i}">${r[0]}</option>`).join("");$("#rc").value=S.rc||0;
+$("#rc").onchange=e=>{S.rc=+e.target.value;save();if(playing>=0)playV(playing)};
+const au=new Audio();let playing=-1,bi=0,chain=false;
+function setNow(vi){$$(".v.now").forEach(e=>e.classList.remove("now"));if(vi>=0){const v=$$(".v")[vi];if(v){v.classList.add("now");v.scrollIntoView({block:"center",behavior:"smooth"})}}$("#pa").textContent=vi>=0&&!au.paused?"❚❚ Pause":"▶ Play surah"}
+function playV(vi,keep){if(listening)stop();if(!keep)bi=0;playing=vi;au.src=`https://cdn.islamic.network/quran/audio/${BR[bi]}/${RC[S.rc||0][1]}/${OFF[cur-1]+vi+1}.mp3`;au.play().then(()=>{setNow(vi);say(`Playing verse ${vi+1} · ${RC[S.rc||0][0]}`)}).catch(()=>{})}
+au.onended=()=>{if(chain&&playing+1<DATA[cur-1][4].length)playV(playing+1);else{playing=-1;chain=false;setNow(-1)}};
+au.onerror=()=>{if(playing<0)return;if(bi<BR.length-1){bi++;playV(playing,true)}else{playing=-1;chain=false;setNow(-1);say("Couldn’t load the audio. It needs an internet connection and doesn’t work inside the claude.ai preview.")}};
+$("#pa").onclick=()=>{if(playing>=0&&!au.paused){au.pause();return}if(playing>=0&&au.paused){chain=true;au.play();return}chain=true;playV(startV)};
+au.onpause=()=>{if(playing>=0)$("#pa").textContent="▶ Play surah"};au.onplay=()=>{if(playing>=0)$("#pa").textContent="❚❚ Pause"};
+function stopAudio(){chain=false;playing=-1;try{au.pause()}catch(e){}setNow(-1)}
 /* beep + judging */
 let ac;function beep(){try{const o=ac.createOscillator(),g=ac.createGain();o.type="square";o.frequency.value=330;g.gain.value=.12;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+.28)}catch(e){}}
 function flash(i){const el=flat[i].el;el.classList.add("wrong");setTimeout(()=>el.classList.remove("wrong"),1400)}
@@ -146,7 +160,7 @@ const fin=e.results[e.results.length-1].isFinal,stable=fin?ws.length:ws.length-1
 $("#hd").textContent=ws.slice(-8).join(" ")};
 rec.onerror=e=>{const m={"not-allowed":"Microphone blocked. Allow mic access for this site in Chrome.","service-not-allowed":"Microphone blocked. Allow mic access for this site in Chrome.","network":"Speech recognition needs an internet connection.","language-not-supported":"Arabic speech recognition isn’t supported on this device."}[e.error];if(m){stop();if(e.error==="not-allowed"||e.error==="service-not-allowed")micFail({name:"NotAllowedError"});else say(m)}};
 rec.onend=()=>{if(listening){k=0;try{rec.start()}catch(e){}}};
-listening=true;try{rec.start()}catch(e){}
+stopAudio();listening=true;try{rec.start()}catch(e){}
 $("#mic").classList.add("on");document.body.classList.add("hide","rec");$("#hide").setAttribute("aria-pressed","true");$("#ml").textContent="Listening… tap to stop";say(`Recite from verse ${startV+1}…`)};
 applyPrefs();
 try{const c=document.createElement("canvas");c.width=c.height=512;const x=c.getContext("2d");x.scale(8,8);x.fillStyle="#14594a";x.fillRect(0,0,64,64);x.strokeStyle="#e3c06a";x.lineWidth=2.5;x.beginPath();x.arc(32,32,22,0,7);x.stroke();x.fillStyle="#f4efe0";x.fill(new Path2D("M32 21c-4-3-9-3.5-14-2v21c5-1.5 10-1 14 2 4-3 9-3.5 14-2V19c-5-1.5-10-1-14 2z"));x.strokeStyle="#14594a";x.lineWidth=2;x.stroke(new Path2D("M32 21v21"));const ic=c.toDataURL("image/png");
