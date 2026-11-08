@@ -174,7 +174,7 @@ function buildWords(rs){let acc="",alts=[];for(let i=0;i<rs.length;i++){const t=
 for(let a=1;a<(rs[i].length||0);a++){const aw=norm(rs[i][a].transcript).split(" ").filter(Boolean);aw.forEach((x,p)=>{(alts[off+p]=alts[off+p]||[]).push(x)})}}
 ALT=alts;return acc.split(" ").filter(Boolean)}
 /* precise engine: Quran-trained Whisper, runs on the phone (hosted copy only) */
-const TJS="https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.6",MODEL="iqbalaesthetic/Basira",OPT={language:"arabic",task:"transcribe",max_new_tokens:128};
+const TJS="https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.6",MODEL="iqbalaesthetic/Basira",OPT={max_new_tokens:128}; /* no language/task: this Arabic-only model has no language settings and writes its own Arabic prefix */
 let PQ=null,cap=null,PQdev="";
 const em=e=>String(e&&e.message||e).slice(0,140);
 $("#en").value=S.eng||"p";
