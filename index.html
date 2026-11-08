@@ -32,7 +32,7 @@ header small{display:block;font-size:13px;font-weight:400;color:var(--mute)}
 .ar{font-family:"Amiri Quran","Traditional Arabic",serif;font-size:calc(var(--fs,30)*1px);line-height:2.1;margin:6px 0;text-align:right}
 .bism{font:calc(var(--fs,30)*1px)/2 "Amiri Quran",serif;text-align:center;padding:18px 0;border-bottom:1px solid var(--line)}
 .v{padding:14px 0;border-bottom:1px solid var(--line)}
-.w{padding:0 .1em;border-radius:6px;transition:background .15s,color .15s}
+.w{padding:0 .1em;border-radius:6px;transition:background .06s,color .06s}
 .w.ok{color:var(--ok)}.w.bad{color:var(--bad);background:var(--badbg)}.w.wrong{color:var(--bad);background:var(--badbg)}
 .w.cur{box-shadow:inset 0 -2px 0 var(--gold)}
 .tr{color:var(--mute);margin:2px 0 0;font-size:15px}
@@ -139,6 +139,7 @@ let misses=0;
 const likeS=(a,b)=>same(a,b)||(!S.strict&&Math.max(a.length,b.length)>3&&sim(a,b)>=.75);
 function diffMsg(e,c){e=e.replace(/ء/g,"");let i=0;while(i<e.length&&i<c.length&&e[i]===c[i])i++;if(c.length<e.length&&c.slice(i)===e.slice(i+1))return`Missing letter “${e[i]}” in the highlighted word.`;if(c.length>e.length&&c.slice(i+1)===e.slice(i))return`Extra letter “${c[i]}” in the highlighted word.`;if(c.length===e.length&&c.slice(i+1)===e.slice(i+1))return`“${e[i]}” sounded like “${c[i]}” in the highlighted word.`;return""}
 const okw=i=>{const c=flat[i].el.classList;c.remove("bad","wrong");c.add("ok")},badw=i=>flat[i].el.classList.add("bad");
+function maybeRestart(c){const vi=flat[pos].vi,vs=vStart[vi],pv=vi>0?vStart[vi-1]:vs;return(vs<pos&&like(c,flat[vs].c))||(pv<pos&&like(c,flat[pv].c))}
 function anchor(ws,k,n,fin,c,back){
 const vi=flat[pos].vi,vs=vStart[vi],pv=vi>0?vStart[vi-1]:vs;let js=[];
 if(back){js.push(vs);if(pv!==vs)js.push(pv);for(let j=pv;j<pos;j++)if(js.indexOf(j)<0)js.push(j)}
@@ -152,7 +153,7 @@ return wait?0:null}
 function step(ws,k,n,fin){const c=cmp(ws[k]);if(!c)return 1;
 const e0=flat[pos].c,e1=pos+1<flat.length?flat[pos+1].c:"",e2=pos+2<flat.length?flat[pos+2].c:"";
 const al=(ALT[k]||[]).map(cmp),viaAlt=!like(c,e0)&&al.some(a=>like(a,e0));
-if(viaAlt||like(c,e0)){if(!viaAlt&&!same(c,e0)){if(!fin&&k+1>=n)return 0;if(k+1<n){const a=anchor(ws,k,n,fin,c,true);if(a&&a.used===2&&a.j<pos&&same(c,flat[a.j].c)){for(let t=0;t<2;t++)okw(a.j+t);pos=a.j+2;misses=0;say(`Restarted verse ${flat[a.j].vi+1}`);return 2}}}okw(pos);pos++;misses=0;return 1}
+if(viaAlt||like(c,e0)){if(!viaAlt&&!same(c,e0)){if(!fin&&k+1>=n&&maybeRestart(c))return 0;if(k+1<n){const a=anchor(ws,k,n,fin,c,true);if(a&&a.used===2&&a.j<pos&&same(c,flat[a.j].c)){for(let t=0;t<2;t++)okw(a.j+t);pos=a.j+2;misses=0;say(`Restarted verse ${flat[a.j].vi+1}`);return 2}}}okw(pos);pos++;misses=0;return 1}
 if(k+1<n){const c2=cmp(ws[k+1]);if(c2&&likeS(c+c2,e0)){okw(pos);pos++;misses=0;return 2}}
 else if(!fin&&c.length<e0.length&&e0.startsWith(c))return 0;
 if(e1&&likeS(c,e0+e1)){okw(pos);okw(pos+1);pos+=2;misses=0;return 1}
@@ -168,6 +169,7 @@ if(misses>=3){badw(pos);pos++;misses=0;say("Skipped a word the phone couldn’t 
 return 1}
 function processWords(ws,fin){let n=ws.length;if(!fin){n=Math.max(0,n-1);let s=0;while(s<n&&prevWs[s]===ws[s])s++;n=s}prevWs=ws;
 while(k<n&&listening&&pos<flat.length){const used=step(ws,k,n,fin);if(!used)break;k+=used;adv()}
+if(!fin)while(k<ws.length&&listening&&pos<flat.length){const c=cmp(ws[k]);if(!c){k++;continue}const e0=flat[pos].c;if(!(same(c,e0)||(ALT[k]||[]).some(a=>same(cmp(a),e0))))break;okw(pos);pos++;misses=0;k++;adv()}
 if(pos>=flat.length){stop();say(`Surah complete. Mistakes: ${mistakes}.`)}}
 let ALT=[];
 function buildWords(rs){let acc="",alts=[];for(let i=0;i<rs.length;i++){const t=norm(rs[i][0].transcript);if(!t)continue;const tw=t.split(" ").filter(Boolean),cum=acc&&t.startsWith(acc);let off;if(cum){off=0;alts=[]}else off=acc?acc.split(" ").filter(Boolean).length:0;acc=cum?t:(acc?acc+" "+t:t);
